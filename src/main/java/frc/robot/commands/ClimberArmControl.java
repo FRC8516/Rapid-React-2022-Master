@@ -1,0 +1,39 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ClimberArm;
+
+public class ClimberArmControl extends CommandBase {
+  private final ClimberArm m_ClimberArm;
+
+  /** Creates a new ArmControl. */
+  public ClimberArmControl(ClimberArm ClimberArm) {
+    m_ClimberArm = ClimberArm;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(ClimberArm);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    m_ClimberArm.MoveClimberArm();
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
