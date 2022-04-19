@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -18,6 +19,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmControl;
 import frc.robot.commands.ArmControlReverse;
 import frc.robot.commands.ConveyorIntake;
+import frc.robot.commands.Drive_With_Limelight;
 //import frc.robot.commands.AutoDriveForward;
 import frc.robot.commands.AutoShoot;
 //import frc.robot.commands.AutoDriveIntake;
@@ -94,6 +96,8 @@ public class RobotContainer {
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    SmartDashboard.putData(new Drive_With_Limelight(m_driverController, limeLight, m_driveTrain));
    
     m_driveTrain.setDefaultCommand(new RunCommand(
         () -> m_driveTrain.drive(m_driverController.getY(), m_driverController.getX(),m_driverController.getZ()),m_driveTrain));
@@ -130,6 +134,9 @@ public class RobotContainer {
 
      //Spins up flywheel for a moment and then runs the conveyor when 'Left Bumper' is pressed. Has the effect of shooting the ball. Press again to deactivate both.
      new JoystickButton(m_actuatorController, Button.kLeftBumper.value).toggleWhenPressed(m_shootBall);
+
+     //Limelight
+     new JoystickButton(m_actuatorController, Button.kRightBumper.value).whileHeld(new Drive_With_Limelight(m_driverController, limeLight, m_driveTrain));
 
      //Moves intake arm forward when 'Back' is pressed.
      new JoystickButton(m_actuatorController, Button.kBack.value).toggleWhenPressed(m_ArmControl);
