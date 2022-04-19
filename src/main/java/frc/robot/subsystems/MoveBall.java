@@ -24,7 +24,7 @@ public class MoveBall extends SubsystemBase {
   
   private static final NetworkTable m_table;
   private ShuffleboardTab ConyTab = Shuffleboard.getTab("Variables");
-  private NetworkTableEntry lowerConveyorSpeed = ConyTab.add("LowerConveySpeed", 1.0).getEntry();
+  private NetworkTableEntry lowerConveyorSpeed = ConyTab.add("LowerConveySpeed", 0.6).getEntry();
  // private NetworkTableEntry ejectConySpeed = ConyTab.add("EjectSpeed", 1.0).getEntry();
   
 

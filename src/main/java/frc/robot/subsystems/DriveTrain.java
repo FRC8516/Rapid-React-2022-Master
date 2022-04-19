@@ -56,7 +56,7 @@ public class DriveTrain extends SubsystemBase {
 
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
-    m_robotDrive.driveCartesian(ySpeed*-0.6, xSpeed*0.6, zRotation*0.6, 0.0);
+    m_robotDrive.driveCartesian(ySpeed*-1, xSpeed*1, zRotation*1, 0.0);
 
     if(Math.abs(xSpeed) > joyThreshold  || Math.abs(zRotation) > joyThreshold ) {
       //m_Drive.arcadeDrive(xSpeed, zRotation);

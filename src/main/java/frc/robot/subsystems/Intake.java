@@ -25,8 +25,8 @@ public class Intake extends SubsystemBase {
   
   private static final NetworkTable m_table;
   private ShuffleboardTab IntakeTab = Shuffleboard.getTab("Variables");
-  private NetworkTableEntry intakeSpeed = IntakeTab.add("IntakeSpeed", 1.0).getEntry();
-  private NetworkTableEntry ejectSpeed = IntakeTab.add("EjectSpeed", 1.0).getEntry();
+  private NetworkTableEntry intakeSpeed = IntakeTab.add("IntakeSpeed", 0.85).getEntry();
+  private NetworkTableEntry ejectSpeed = IntakeTab.add("EjectSpeed", 0.7).getEntry();
   private NetworkTableEntry holdSpeed = IntakeTab.add("HoldSpeed", 0.25).getEntry();
 
 

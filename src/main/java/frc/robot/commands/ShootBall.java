@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Flywheel;
+import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.MoveBall;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,15 +15,27 @@ import frc.robot.subsystems.MoveBall;
 public class ShootBall extends SequentialCommandGroup {
 
   /** Creates a new ShootBall. */
-  public ShootBall(Flywheel flywheel, MoveBall moveBall) {
+  public ShootBall(Flywheel flywheel, MoveBall moveBall, IntakeArm intakeArm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands( 
+    addCommands( /*
     new RunFlywheel(flywheel).withTimeout(1), 
     parallel(
     new RunFlywheel(flywheel),
     new LowerConveyor(moveBall)
+    */
+
+//new RunFlywheel(flywheel).withTimeout(1), 
     
-    ));
+    parallel(new RunFlywheel(flywheel),
+    sequence(new ArmControlReverse(intakeArm).withTimeout(0.05),
+       //new ArmControl(intakeArm).withTimeout(0.05),
+          //new ArmControlReverse(intakeArm).withTimeout(0.5),
+              new LowerConveyorEject(moveBall).withTimeout(0.2),
+                  new LowerConveyor(moveBall).withTimeout(0.2),
+                      new LowerConveyorEject(moveBall).withTimeout(0.1),
+                          new LowerConveyor(moveBall).withTimeout(2.0),
+                              new ArmControl(intakeArm)
+    )));
   }
 }

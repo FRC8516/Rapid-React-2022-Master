@@ -26,7 +26,7 @@ public class Flywheel extends SubsystemBase {
   private static final NetworkTable m_table;
   private ShuffleboardTab VariablesTab = Shuffleboard.getTab("Variables");
   private NetworkTableEntry FlywheelInSpeed = VariablesTab.add("FlywheelIn", -1.0).getEntry();
-  private NetworkTableEntry FlywheelOutSpeed = VariablesTab.add("Flywheelout", 1.0).getEntry();
+  private NetworkTableEntry FlywheelOutSpeed = VariablesTab.add("Flywheelout", 0.9).getEntry();
   /** Creates a new Flywheel. */
   public Flywheel() {
 
@@ -53,6 +53,9 @@ public class Flywheel extends SubsystemBase {
     flywheelMotor.set(OutSpeed);  
   }
 
+  public void ballOutAuto() {
+    flywheelMotor.set(0.9);
+  }
    // Stop Motion
    public void stopMotion() {
     flywheelMotor.set(0.0);

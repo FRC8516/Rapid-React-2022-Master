@@ -18,12 +18,12 @@ import oi.limelightvision.limelight.frc.LimeLight;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Drive_and_Shoot extends SequentialCommandGroup {
   /** Creates a new Drive_and_Shoot. */
-  public Drive_and_Shoot(Flywheel flywheel, MoveBall moveBall, DriveTrain driveTrain, LimeLight limeLight, Joystick joystick) {
+  public Drive_and_Shoot(Flywheel flywheel, MoveBall moveBall, DriveTrain driveTrain, LimeLight limeLight) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      parallel(new Drive_With_Limelight(joystick, limeLight,driveTrain),
-              parallel(new RunFlywheel(flywheel),
+      parallel(new AutoLimelight (limeLight, driveTrain),
+              parallel(new FlyWheelAuto(flywheel),
                       sequence(new WaitCommand(1),
                                 new LowerConveyor(moveBall)
                                 )         

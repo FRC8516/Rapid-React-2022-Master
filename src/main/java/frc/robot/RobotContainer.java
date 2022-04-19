@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick.ButtonType;
 //import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmControl;
@@ -26,6 +28,7 @@ import frc.robot.commands.AutoShoot;
 import frc.robot.commands.EjectBall;
 //import frc.robot.commands.HoldBall;
 import frc.robot.commands.LowerConveyorEject;
+import frc.robot.commands.RunFlywheel;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LowerConveyor;
 import frc.robot.commands.ClimberArmControl;
@@ -63,13 +66,21 @@ public class RobotContainer {
   private final Climber m_climber = new Climber();
   //private final MoveBall m_MoveBall = new MoveBall();
 
+  
+//Controllers
+  Joystick m_driverController = new Joystick(OIConstants.kdriveJoyStick);
+  XboxController m_actuatorController = new XboxController(OIConstants.kactuatorJoyStick);
+
+// LimeLight
+  private final LimeLight m_limeLight = new LimeLight();
+
  //Commands
   private final IntakeBall m_intakeBall = new IntakeBall(m_intake);
   private final ArmControl m_ArmControl = new ArmControl(m_intakearm);
   private final ArmControlReverse m_ArmControlReverse = new ArmControlReverse(m_intakearm);
   private final EjectBall m_ejectBall = new EjectBall(m_intake);
   //private final HoldBall m_holdBall = new HoldBall(m_intake);
-  //private final RunFlywheel m_runFlywheel = new RunFlywheel(m_flywheel);
+  private final RunFlywheel m_runFlywheel = new RunFlywheel(m_flywheel);
   private final LowerConveyor m_lowerConveyor = new LowerConveyor(m_Conveyor);
   private final LowerConveyorEject m_lowerConveyorEject = new LowerConveyorEject(m_Conveyor);
   private final ClimberArmControl m_ClimberArm = new ClimberArmControl(m_climberArm); 
@@ -77,27 +88,24 @@ public class RobotContainer {
   private final ClimberDown m_climberDown = new ClimberDown(m_climber);
   private final ClimberUp m_climberUp = new ClimberUp(m_climber);
 
+
   //Multi-subsystem commands
   private final ConveyorIntake m_ConveyorIntake = new ConveyorIntake (m_Conveyor, m_intake);
-  private final ShootBall m_shootBall = new ShootBall(m_flywheel, m_Conveyor);
-  private final AutoShoot m_autoShoot = new AutoShoot(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm);
+  private final ShootBall m_shootBall = new ShootBall(m_flywheel, m_Conveyor, m_intakearm);
+  private final AutoShoot m_autoShoot = new AutoShoot(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
 
-  // LimeLight
-  private final LimeLight limeLight = new LimeLight();
+
 
   //Jake is a monkey. Keep him away from this code.
   //Ana is a silly goose. Who can only think about robotics when she is doing the dishes. She is not trustworthy to write bios.
   //To continue, Ana should not be allowed near this code. Or the robot. Or the flag. Or anything.
 
- //Controllers
-  Joystick m_driverController = new Joystick(OIConstants.kdriveJoyStick);
-  XboxController m_actuatorController = new XboxController(OIConstants.kactuatorJoyStick);
  
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    SmartDashboard.putData(new Drive_With_Limelight(m_driverController, limeLight, m_driveTrain));
+    //SmartDashboard.putData(new Drive_With_Limelight(m_driverController, m_limeLight, m_driveTrain));
    
     m_driveTrain.setDefaultCommand(new RunCommand(
         () -> m_driveTrain.drive(m_driverController.getY(), m_driverController.getX(),m_driverController.getZ()),m_driveTrain));
@@ -116,7 +124,8 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     
-
+     //Limelight on Joystick
+     new JoystickButton(m_driverController, 11).whileHeld(new Drive_With_Limelight(m_driverController, m_limeLight, m_driveTrain));
 
      //Pulls balls in from the intake while 'X' is held down
      //new JoystickButton(m_actuatorController, Button.kX.value).whileHeld(m_intakeBall);
@@ -135,8 +144,11 @@ public class RobotContainer {
      //Spins up flywheel for a moment and then runs the conveyor when 'Left Bumper' is pressed. Has the effect of shooting the ball. Press again to deactivate both.
      new JoystickButton(m_actuatorController, Button.kLeftBumper.value).toggleWhenPressed(m_shootBall);
 
-     //Limelight
-     new JoystickButton(m_actuatorController, Button.kRightBumper.value).whileHeld(new Drive_With_Limelight(m_driverController, limeLight, m_driveTrain));
+     //Limelight on actuator
+     //new JoystickButton(m_actuatorController, Button.kRightBumper.value).whileHeld(new Drive_With_Limelight(m_driverController, m_limeLight, m_driveTrain));
+
+     //Flywheel only
+     new JoystickButton(m_actuatorController, Button.kRightBumper.value).toggleWhenPressed(m_runFlywheel);
 
      //Moves intake arm forward when 'Back' is pressed.
      new JoystickButton(m_actuatorController, Button.kBack.value).toggleWhenPressed(m_ArmControl);
@@ -167,6 +179,11 @@ public class RobotContainer {
     } */
   }
 
+
+  private int rawValue(int i) {
+    return 0;
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -175,7 +192,7 @@ public class RobotContainer {
 
    
   public LimeLight getLimeLight() {
-    return limeLight;
+    return m_limeLight;
   }
   
   public Command getAutonomousCommand(){

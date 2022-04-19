@@ -4,24 +4,20 @@
 
 package frc.robot.commands;
 
-import javax.swing.JOptionPane;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import oi.limelightvision.limelight.frc.LimeLight;
 
-public class Drive_With_Limelight extends CommandBase {
+public class AutoLimelight extends CommandBase {
   private final DriveTrain m_drivetrain;
   private LimeLight m_limelight;
-  private Joystick m_joystick;
 
 
   /** Creates a new Drive_With_Limelight. */
-  public Drive_With_Limelight(Joystick joystick, LimeLight limelight, DriveTrain drivetrain) {
+  public AutoLimelight (LimeLight limelight, DriveTrain drivetrain) {
     m_drivetrain = drivetrain;
-    m_joystick = joystick;
     m_limelight = limelight;
     addRequirements(m_drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -41,16 +37,14 @@ public class Drive_With_Limelight extends CommandBase {
    // double kp = .005;
     double kp = SmartDashboard.getNumber("kp", .005);
 
-    if(m_limelight.getIsTargetFound()){
+
       zRotation = m_limelight.getdegRotationToTarget() * kp;
-    }else{
-      zRotation = m_joystick.getZ();
-    }
+
     /* SmartDashboard.putNumber("zRotation", zRotation);
     SmartDashboard.putNumber("Joy zRotation", m_joystick.getZ());
     zRotation = 0; */
 
-    m_drivetrain.drive(m_joystick.getY(), m_joystick.getX(), zRotation);
+    m_drivetrain.drive(0,0, zRotation);
   }
 
   // Called once the command ends or is interrupted.
