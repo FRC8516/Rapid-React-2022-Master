@@ -7,15 +7,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
 //import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 //import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmControl;
@@ -29,7 +27,7 @@ import frc.robot.commands.EjectBall;
 //import frc.robot.commands.HoldBall;
 import frc.robot.commands.LowerConveyorEject;
 import frc.robot.commands.RunFlywheel;
-import frc.robot.commands.IntakeBall;
+//import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LowerConveyor;
 import frc.robot.commands.ClimberArmControl;
 import frc.robot.commands.ClimberArmControlReverse; 
@@ -75,7 +73,7 @@ public class RobotContainer {
   private final LimeLight m_limeLight = new LimeLight();
 
  //Commands
-  private final IntakeBall m_intakeBall = new IntakeBall(m_intake);
+  //private final IntakeBall m_intakeBall = new IntakeBall(m_intake);
   private final ArmControl m_ArmControl = new ArmControl(m_intakearm);
   private final ArmControlReverse m_ArmControlReverse = new ArmControlReverse(m_intakearm);
   private final EjectBall m_ejectBall = new EjectBall(m_intake);
@@ -180,9 +178,9 @@ public class RobotContainer {
   }
 
 
-  private int rawValue(int i) {
-    return 0;
-  }
+  //private int rawValue(int i) {
+  //return 0;
+  //}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
