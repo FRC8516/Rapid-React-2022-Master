@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,6 +27,8 @@ import frc.robot.commands.Drive_With_Limelight;
 import frc.robot.commands.AutoShoot;
 //import frc.robot.commands.AutoDriveIntake;
 import frc.robot.commands.EjectBall;
+import frc.robot.commands.AutoShoot1;
+import frc.robot.commands.AutoShoot3;
 //import frc.robot.commands.HoldBall;
 import frc.robot.commands.LowerConveyorEject;
 import frc.robot.commands.RunFlywheel;
@@ -91,7 +96,8 @@ public class RobotContainer {
   private final ConveyorIntake m_ConveyorIntake = new ConveyorIntake (m_Conveyor, m_intake);
   private final ShootBall m_shootBall = new ShootBall(m_flywheel, m_Conveyor, m_intakearm);
   private final AutoShoot m_autoShoot = new AutoShoot(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
-
+  private final AutoShoot1 m_AutoShoot1 = new AutoShoot1(m_flywheel, m_Conveyor, m_driveTrain, m_intakearm);
+  private final AutoShoot3 m_AutoShoot3 = new AutoShoot3(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
 
 
   //Jake is a monkey. Keep him away from this code.
@@ -104,6 +110,8 @@ public class RobotContainer {
   public RobotContainer() {
 
     //SmartDashboard.putData(new Drive_With_Limelight(m_driverController, m_limeLight, m_driveTrain));
+ 
+
    
     m_driveTrain.setDefaultCommand(new RunCommand(
         () -> m_driveTrain.drive(m_driverController.getY(), m_driverController.getX(),m_driverController.getZ()),m_driveTrain));
@@ -177,7 +185,6 @@ public class RobotContainer {
     } */
   }
 
-
   //private int rawValue(int i) {
   //return 0;
   //}
@@ -194,7 +201,18 @@ public class RobotContainer {
   }
   
   public Command getAutonomousCommand(){
-    return m_autoShoot;
+    //The current way to change autonomous modes. Uncomment the 'return' line of the auto you want and redeploy the code.
+
+    //2 ball auto.
+    //return m_autoShoot;
+    
+    //1 ball auto.
+    //return m_AutoShoot1;
+    
+    //3 ball auto.
+    return m_AutoShoot3;
+
+    //Some attempts at an auto selector. Not running yet.
+    //return m_AutoCommand;
   }
 }
-

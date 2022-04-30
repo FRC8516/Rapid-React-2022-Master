@@ -1,4 +1,5 @@
-//Don't let the name fool you. This is the EVERYTHING for autonomous.
+//Don't let the name fool you. This is the EVERYTHING for autonomous. 
+//It is a two ball (meaning it shoots two balls during the entirety of the autonomous phase).
 
 package frc.robot.commands;
 
@@ -35,13 +36,13 @@ public class AutoShoot extends SequentialCommandGroup {
 
     ///New autonomous to try? Two ball in theory, using limelight to correct any adjustment errors.
     
-        new AutoDriveForward(m_DriveTrain).withTimeout(0.7),
+        //new AutoDriveForward(m_DriveTrain).withTimeout(0.2),
         //new Drive_and_Shoot(m_flyWheel, m_conveyor, m_DriveTrain, m_limeLight).withTimeout(3),
         new ArmControlReverse(m_IntakeArm).withTimeout(0.1),
         new ArmControl(m_IntakeArm).withTimeout(0.1),
         new ArmControlReverse(m_IntakeArm).withTimeout(1.0),
-        new AutoDriveIntake(m_Intake, m_DriveTrain).withTimeout(1.5),
-        new AutoDriveBackwards(m_DriveTrain).withTimeout(1.9),
+        new AutoDriveIntake(m_Intake, m_DriveTrain).withTimeout(0.9),
+        new AutoDriveBackwards(m_DriveTrain).withTimeout(0.6),
         new LowerConveyorEject(m_conveyor).withTimeout(0.1),
         new Drive_and_Shoot(m_flyWheel, m_conveyor, m_DriveTrain, m_limeLight).withTimeout(4),
         new ArmControl(m_IntakeArm).withTimeout(1.0)
@@ -49,4 +50,11 @@ public class AutoShoot extends SequentialCommandGroup {
     }
 
   } 
- 
+ /*     new ArmControlReverse(m_IntakeArm).withTimeout(0.1),
+        new ArmControl(m_IntakeArm).withTimeout(0.1),
+        new ArmControlReverse(m_IntakeArm).withTimeout(1.0),
+        new AutoDriveIntake(m_Intake, m_DriveTrain).withTimeout(2.2),
+        new AutoDriveBackwards(m_DriveTrain).withTimeout(1.9),
+        new LowerConveyorEject(m_conveyor).withTimeout(0.1),
+        new Drive_and_Shoot(m_flyWheel, m_conveyor, m_DriveTrain, m_limeLight).withTimeout(4),
+        new ArmControl(m_IntakeArm).withTimeout(1.0) */

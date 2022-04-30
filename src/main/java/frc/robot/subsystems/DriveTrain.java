@@ -56,7 +56,7 @@ public class DriveTrain extends SubsystemBase {
 
     // Use the joystick X axis for lateral movement, Y axis for forward
     // movement, and Z axis for rotation.
-    m_robotDrive.driveCartesian(ySpeed*-1, xSpeed*1, zRotation*1, 0.0);
+    m_robotDrive.driveCartesian(ySpeed*-0.7, xSpeed*0.7, zRotation*0.7, 0.0);
 
     if(Math.abs(xSpeed) > joyThreshold  || Math.abs(zRotation) > joyThreshold ) {
       //m_Drive.arcadeDrive(xSpeed, zRotation);
@@ -83,6 +83,38 @@ public class DriveTrain extends SubsystemBase {
     m_frontRightMotor.set(ControlMode.PercentOutput, 0.3);
     m_rearLeftMotor.set(ControlMode.PercentOutput, 0.3);
     m_rearRightMotor.set(ControlMode.PercentOutput, 0.3);
+  }
+
+  public void autoDriveRight(){
+    m_frontLeftMotor.set(ControlMode.PercentOutput, 0.3);
+    m_frontRightMotor.set(ControlMode.PercentOutput, -0.3);
+    m_rearLeftMotor.set(ControlMode.PercentOutput, -0.3);
+    m_rearRightMotor.set(ControlMode.PercentOutput, 0.3);
+  }
+
+  public void autoDriveLeft(){
+    m_frontLeftMotor.set(ControlMode.PercentOutput, -0.3);
+    m_frontRightMotor.set(ControlMode.PercentOutput, 0.3);
+    m_rearLeftMotor.set(ControlMode.PercentOutput, 0.3);
+    m_rearRightMotor.set(ControlMode.PercentOutput, -0.3);
+  }
+
+
+  public void autoTurnRight(){
+    //Maybe?
+    m_frontLeftMotor.set(ControlMode.PercentOutput, 0.5);
+    m_frontRightMotor.set(ControlMode.PercentOutput, -0.5);
+    m_rearLeftMotor.set(ControlMode.PercentOutput, 0.5);
+    m_rearRightMotor.set(ControlMode.PercentOutput, -0.5);
+  }
+
+
+  public void autoTurnLeft(){
+    //Maybe?
+    m_frontLeftMotor.set(ControlMode.PercentOutput, -0.5);
+    m_frontRightMotor.set(ControlMode.PercentOutput, 0.5);
+    m_rearLeftMotor.set(ControlMode.PercentOutput, -0.5);
+    m_rearRightMotor.set(ControlMode.PercentOutput, 0.5);
   }
 
   public void stopMotion() {
