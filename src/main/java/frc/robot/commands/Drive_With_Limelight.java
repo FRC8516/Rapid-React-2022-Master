@@ -30,7 +30,7 @@ public class Drive_With_Limelight extends CommandBase {
   @Override
   public void initialize() {
     m_limelight.setPipeline(1);
-    SmartDashboard.putNumber("kp", 0.05);
+    SmartDashboard.putNumber("kp", 0.03);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
