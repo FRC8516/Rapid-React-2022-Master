@@ -2,33 +2,29 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+//The place that controllers are declared, buttons are bound, and you change the auto.
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-//import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ArmControl;
 import frc.robot.commands.ArmControlReverse;
 import frc.robot.commands.ConveyorIntake;
 import frc.robot.commands.Drive_With_Limelight;
 //import frc.robot.commands.AutoDriveForward;
-import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoShoot2;
 //import frc.robot.commands.AutoDriveIntake;
 import frc.robot.commands.EjectBall;
 import frc.robot.commands.AutoShoot1;
 import frc.robot.commands.AutoShoot3;
+import frc.robot.commands.AutoShoot5;
 //import frc.robot.commands.HoldBall;
 import frc.robot.commands.LowerConveyorEject;
 import frc.robot.commands.RunFlywheel;
@@ -56,10 +52,11 @@ import frc.robot.subsystems.Climber;
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
+ * This means 'only bind buttons or map controllers here' because otherwise problems
  */
 
 public class RobotContainer {
-  //Subsystems
+  //Subsystems that will be used in the rest of the file
   private final ClimberArm m_climberArm = new ClimberArm(); 
   private final DriveTrain m_driveTrain = new DriveTrain();
   private final Intake m_intake = new Intake();
@@ -70,19 +67,24 @@ public class RobotContainer {
   //private final MoveBall m_MoveBall = new MoveBall();
 
   
-//Controllers
+//Controllers that are used on the robot
   Joystick m_driverController = new Joystick(OIConstants.kdriveJoyStick);
   XboxController m_actuatorController = new XboxController(OIConstants.kactuatorJoyStick);
 
-// LimeLight
+// LimeLight 
+// The limelight is used a couple times here, the declaration is separated from the other subsystems
+// because it is extra special
   private final LimeLight m_limeLight = new LimeLight();
 
  //Commands
+ //The commands that the robot uses. Split up between single subsystem commands and multi
+ //subsystem commands for ease of reading. Things like 'move the conveyor' and 'move the 
+ //climber' go here
+
   //private final IntakeBall m_intakeBall = new IntakeBall(m_intake);
   private final ArmControl m_ArmControl = new ArmControl(m_intakearm);
   private final ArmControlReverse m_ArmControlReverse = new ArmControlReverse(m_intakearm);
   private final EjectBall m_ejectBall = new EjectBall(m_intake);
-  //private final HoldBall m_holdBall = new HoldBall(m_intake);
   private final RunFlywheel m_runFlywheel = new RunFlywheel(m_flywheel);
   private final LowerConveyor m_lowerConveyor = new LowerConveyor(m_Conveyor);
   private final LowerConveyorEject m_lowerConveyorEject = new LowerConveyorEject(m_Conveyor);
@@ -93,18 +95,16 @@ public class RobotContainer {
 
 
   //Multi-subsystem commands
+  //Things that use more than one subsystem. Auto's 
+
   private final ConveyorIntake m_ConveyorIntake = new ConveyorIntake (m_Conveyor, m_intake);
   private final ShootBall m_shootBall = new ShootBall(m_flywheel, m_Conveyor, m_intakearm);
-  private final AutoShoot m_autoShoot = new AutoShoot(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
   private final AutoShoot1 m_AutoShoot1 = new AutoShoot1(m_flywheel, m_Conveyor, m_driveTrain, m_intakearm);
+  private final AutoShoot2 m_AutoShoot2 = new AutoShoot2(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
   private final AutoShoot3 m_AutoShoot3 = new AutoShoot3(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
+  private final AutoShoot5 m_AutoShoot5 = new AutoShoot5(m_flywheel, m_Conveyor, m_driveTrain, m_intake, m_intakearm, m_limeLight);
 
 
-  //Jake is a monkey. Keep him away from this code.
-  //Ana is a silly goose. Who can only think about robotics when she is doing the dishes. She is not trustworthy to write bios.
-  //To continue, Ana should not be allowed near this code. Or the robot. Or the flag. Or anything.
-
- 
  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -202,15 +202,19 @@ public class RobotContainer {
   
   public Command getAutonomousCommand(){
     //The current way to change autonomous modes. Uncomment the 'return' line of the auto you want and redeploy the code.
+    //Note: Only uncomment the line that starts with 'return'. Only uncomment one at a time.
+
+    //1 ball auto.
+    //return m_AutoShoot1;    
 
     //2 ball auto.
-    //return m_autoShoot;
-    
-    //1 ball auto.
-    //return m_AutoShoot1;
-    
+    return m_AutoShoot2;
+
     //3 ball auto.
-    return m_AutoShoot3;
+    //return m_AutoShoot3;
+
+    //5 ball auto.
+    //return m_AutoShoot5;
 
     //Some attempts at an auto selector. Not running yet.
     //return m_AutoCommand;

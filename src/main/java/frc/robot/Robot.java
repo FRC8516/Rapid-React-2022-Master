@@ -33,13 +33,14 @@ private Command m_autonomousCommand;
     //PortForwarder.add(5801, "wpilibpi.local", 5801);
 
 
+
    
     //CameraServer.getInstance();
     UsbCamera cam0 = CameraServer.startAutomaticCapture();
     //CameraServer.getInstance();
     UsbCamera cam1 = CameraServer.startAutomaticCapture();
-    cam0.setFPS(20);
-    cam1.setFPS(20);
+    cam0.setFPS(30);
+    cam1.setFPS(30);
   }
 
   /**

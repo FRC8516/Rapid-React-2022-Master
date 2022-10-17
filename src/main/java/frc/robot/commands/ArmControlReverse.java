@@ -13,7 +13,7 @@ public class ArmControlReverse extends CommandBase {
   /** Creates a new ArmControl. */
   public ArmControlReverse(IntakeArm intakearm) {
     m_intakeArm = intakearm;
-    // Use addRequirements() here to declare subsystem dependencies.
+    //Use addRequirements() here to declare subsystem dependencies.
     //Translated from nerd, this means 'write down what subsystems this command uses here'
 
     addRequirements(intakearm);
